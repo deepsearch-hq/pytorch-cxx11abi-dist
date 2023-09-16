@@ -52,7 +52,7 @@ RUN python3 -m venv $HOME/.venv && . $HOME/.venv/bin/activate \
 WORKDIR /app/tmp
 RUN . $HOME/.venv/bin/activate && git clone --depth 1 -b v2.0.0 https://github.com/pytorch/pytorch.git \
     && cd pytorch && git submodule sync && git submodule update --init --recursive --jobs `nproc --all` \
-    && CFLAGS="-Wno-stringop-overread -Wno-incompatible-pointer-types -Wno-sign-compare -Wno-nonnull" CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=1 -Wno-unused-result -Wno-uninitialized -Wno-maybe-uninitialized -Wno-nonnull -Wno-strict-aliasing -Wno-deprecated-declarations -Wno-free-nonheap-object" USE_DISTRIBUTED=OFF PYTORCH_BUILD_VERSION=2.0.0 PYTORCH_BUILD_NUMBER=1 python3 setup.py bdist_wheel && cd ..
+    && CFLAGS="-Wno-stringop-overread -Wno-incompatible-pointer-types -Wno-sign-compare -Wno-nonnull" CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=1 -Wno-unused-result -Wno-uninitialized -Wno-maybe-uninitialized -Wno-nonnull -Wno-strict-aliasing -Wno-deprecated-declarations -Wno-free-nonheap-object" PYTORCH_BUILD_VERSION=2.0.0 PYTORCH_BUILD_NUMBER=1 python3 setup.py bdist_wheel && cd ..
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
