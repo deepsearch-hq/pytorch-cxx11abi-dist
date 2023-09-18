@@ -27,8 +27,8 @@ RUN apt-get update \
         build-essential autoconf binutils-dev libunwind-dev libdw-dev \
         libtool pkg-config ninja-build ccache flex bison uuid-dev libreadline-dev \
         libncursesw5-dev libgdbm-dev libdouble-conversion-dev \
-        libz-dev liblz4-dev libbz2-dev liblzma-dev libsnappy-dev libzstd-dev libbrotli-dev \
-        libffi-dev libssl-dev openssl libc-ares-dev libdnnl-dev \
+        libz-dev liblz4-dev libbz2-dev liblzma-dev libsnappy-dev libzstd-dev \
+        libbrotli-dev libffi-dev libssl-dev openssl libc-ares-dev libdnnl-dev \
         \
         curl wget git git-lfs python3 python3-venv python3-dev python3-pip \
         \
@@ -50,8 +50,10 @@ RUN python3 -m venv $HOME/.venv && . $HOME/.venv/bin/activate \
     fi
 
 WORKDIR /app/tmp
-RUN . $HOME/.venv/bin/activate && git clone --depth 1 -b v2.0.0 https://github.com/pytorch/pytorch.git \
-    && cd pytorch && git submodule sync && git submodule update --init --recursive --jobs `nproc --all` \
+RUN . $HOME/.venv/bin/activate \
+    && git clone --depth 1 -b v2.0.0 https://github.com/pytorch/pytorch.git \
+    && cd pytorch && git submodule sync \
+    && git submodule update --init --recursive --jobs `nproc --all` \
     && CFLAGS="-Wno-stringop-overread -Wno-incompatible-pointer-types -Wno-sign-compare -Wno-nonnull" CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=1 -Wno-unused-result -Wno-uninitialized -Wno-maybe-uninitialized -Wno-nonnull -Wno-strict-aliasing -Wno-deprecated-declarations -Wno-free-nonheap-object" PYTORCH_BUILD_VERSION=2.0.0 PYTORCH_BUILD_NUMBER=1 python3 setup.py bdist_wheel && cd ..
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
