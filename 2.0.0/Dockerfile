@@ -16,7 +16,6 @@ ARG CCACHE_COMPRESS=1
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-        # libffi-dev libssl-dev openssl libc-ares-dev libdnnl-dev libmkl-dev \
 
 RUN apt-get update \
     && apt-get upgrade -y \
